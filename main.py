@@ -3,6 +3,10 @@ from pytesseract import Output
 import cv2,pytesseract,argparse,numpy,os
 
 def file_path(filepath):
+    '''
+    This function checks if a pdf document exists.
+    returns: if filepath does exists, it returns the full path of the file.
+    '''
     if filepath[-3:] not in 'pdf':
         raise argparse.ArgumentTypeError(f"Extension:{filepath[-3:]} is not a valid pdf file")
     if os.path.isfile(filepath):
@@ -10,19 +14,31 @@ def file_path(filepath):
     else:
         raise argparse.ArgumentTypeError(f"readable_dir:{filepath} is not a valid path")
 
-def folder_path(folder_path):
-    if os.path.isdir(folder_path):
-        return folder_path
+def folder_path(folderpath):
+    '''
+    This function checks if a folder path is valid.
+    returns: if folder_path is valid, it returns the full path.
+    '''
+    if os.path.isdir(folderpath):
+        return folderpath
     else:
-        raise argparse.ArgumentTypeError(f"readable_dir:{folder_path} is not a valid path")
+        raise argparse.ArgumentTypeError(f"readable_dir:{folderpath} is not a valid path")
 
 
 def draw_rectangle(img, pos):
+    '''
+    This function takes an image, and draws a rectangle on the given coordinates.
+    returns: an image file with censored words.
+    '''
     (x,y,w,h) = pos
     return cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 0), -1)
 
 
 def data_ret(pdf_page):
+    '''
+    This function takes a pdf page.
+    returns: a tupple of a PIL image Object and the text extraction for the given pdf.
+    '''
     open_cv_image = numpy.array(pdf_page) 
     return (img := open_cv_image[:, :, ::-1].copy(), pytesseract.image_to_data(img, output_type=Output.DICT))
 
@@ -67,15 +83,20 @@ def Main(path, names, makedir, folderpath, DPI=30, matchsensitivity = 50):
 
 
 if __name__ == "__main__":
+    #Command Line arguments:
     parser = argparse.ArgumentParser(description='Command line arguments.')
     group = parser.add_mutually_exclusive_group()
+    #name is the default argument, this arg takes one or more names, ej. John Doe / John / John Snow Second
     parser.add_argument('name', nargs='+', help='Type multiple names separated by spaces, these are to be removed from the pdf.')
+    #The document path argument takes a full path including the pdf document itself, if this argument is casted then the folderpath argument will be disabled.
     group.add_argument('-d','--documentpath', help='This option allows the user to directly point to a pdf document.', type=file_path)
+    #The folder path argument takes a full path for a folder containing one or multiple pdf documents, if this argument is casted then the document argument will be disabled.
     group.add_argument('-f','--folderpath', help='This option allows the user to set a path folder to multiple pdf files at once.', type=folder_path)
+    #makedir is an argument which takes no value, if this argument is casted then the script will create a folder for each file to place the results into.
     parser.add_argument('-mk','--makedir', help='This option creates a subfolder (results) under the current file path.', action="store_true")
     args = parser.parse_args()
     
-    
+    #Initializating Main function
     Main(args.documentpath, args.name, args.makedir, args.folderpath)
 
 
