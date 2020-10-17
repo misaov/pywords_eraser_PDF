@@ -16,9 +16,11 @@ La funcionalidad de este script es mediante el CMD, donde se corre el script, co
 * Crear directorio: Al utilizar el argumento ***-mk*** se crearan los documentos dentro de una carpeta dentro de la ruta que fue especificada, la carpeta llevara el nombre de los documentos distinguiendose con la terminación _results.
 **Nota** de omitir este argumento, los resultados se crearan dentro de la ruta que fue especificada.
 
-
+### Capturas:
 ![paso1](https://user-images.githubusercontent.com/50644210/96350020-ecce6000-1078-11eb-9abf-26b10fdc7fc9.png)
-
+![paso2](https://user-images.githubusercontent.com/50644210/96350083-5484ab00-1079-11eb-8b62-0f3e2020914e.png)
+![paso3](https://user-images.githubusercontent.com/50644210/96350081-5189ba80-1079-11eb-9ecb-bf2f228cd17e.png)
+![paso4](https://user-images.githubusercontent.com/50644210/96350082-52225100-1079-11eb-9dd8-d8817ef262e6.png)
 
 ### Instalación:
 Para la instalación de este script, se debera contar con las siguientes librerias:
