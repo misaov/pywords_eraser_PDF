@@ -17,3 +17,13 @@ La funcionalidad de este script es mediante el CMD, donde se corre el script, co
 **Nota** de omitir este argumento, los resultados se crearan dentro de la ruta que fue especificada.
 
 ### Instalación:
+Para la instalación de este script, se debera contar con las siguientes librerias:
+* Pytesseract   /       pip install pytesseract
+* Numpy         /       pip install numpy
+* OpenCV        /       pip install opencv-python
+* pdf2image     /       pip install pdf2image
+en el caso de esta ultima libreria se debera de instalar poppler para su funcionamiento, el cual se puede encontrar en el siguiente link: https://github.com/oschwartz10612/poppler-windows/releases/
+
+* **Nota** Hay que asegurarse de agregar a PATH el folder de poppler, como el de tesseract:   
+**C:\Program Files\Tesseract-OCR  
+**C:\poppler-20.09.0\bin
