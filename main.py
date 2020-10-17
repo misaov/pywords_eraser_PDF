@@ -70,7 +70,7 @@ def logic(path, names, makedir, DPI, matchsensitivity):
 
         for i in range(word_groups):
             for name in names:
-                if name in text[i] and int(reliability[i]) > matchsensitivity:
+                if name.lower() in text[i].lower() and int(reliability[i]) > matchsensitivity:
                     coords = word_coords(ocr, i)
                     img = draw_rectangle(img, coords)
         if makedir:

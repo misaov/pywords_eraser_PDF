@@ -16,6 +16,10 @@ La funcionalidad de este script es mediante el CMD, donde se corre el script, co
 * Crear directorio: Al utilizar el argumento ***-mk*** se crearan los documentos dentro de una carpeta dentro de la ruta que fue especificada, la carpeta llevara el nombre de los documentos distinguiendose con la terminación _results.
 **Nota** de omitir este argumento, los resultados se crearan dentro de la ruta que fue especificada.
 
+
+![paso1](https://user-images.githubusercontent.com/50644210/96350020-ecce6000-1078-11eb-9abf-26b10fdc7fc9.png)
+
+
 ### Instalación:
 Para la instalación de este script, se debera contar con las siguientes librerias:
 * Pytesseract   /       pip install pytesseract
