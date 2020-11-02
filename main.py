@@ -3,6 +3,13 @@ from pytesseract import Output
 import cv2, pytesseract, argparse, numpy, os
 
 
+def check_positive(value):
+    ivalue = int(value)
+    if ivalue <= 0:
+        raise argparse.ArgumentTypeError("%s is an invalid positive int value" % value)
+    return ivalue
+
+
 def file_path(filepath):
     '''
     This function checks if a pdf document exists.
@@ -45,7 +52,7 @@ def data_ret(pdf_page):
     returns: a tuple of a PIL image Object and the text extraction for the given pdf.
     '''
     open_cv_image = numpy.array(pdf_page)
-    return (img := open_cv_image[:, :, ::-1].copy(), pytesseract.image_to_data(img, output_type=Output.DICT))
+    return (img := open_cv_image[:, :, ::-1].copy(), pytesseract.image_to_data(img, lang="spa", output_type=Output.DICT))
 
 
 def word_coords(ocr, index):
@@ -87,7 +94,7 @@ def logic(path, names, makedir, DPI, matchsensitivity):
                 f'{filename[:-4]}_Sheet{n+1}_processed.png, has been created at {dir}')
 
 
-def Main(path, names, makedir, folderpath, DPI=30, matchsensitivity=50):
+def Main(path, names, makedir, folderpath, DPI=200, matchsensitivity=50):
     # If user chose the folderpath argument it will iterate over all pdf files within the folder.
     if folderpath:
         for pdf in os.listdir(folderpath):
@@ -114,7 +121,16 @@ if __name__ == "__main__":
     # makedir is an argument which takes no value, if this argument is casted then the script will create a folder for each file to place the results into.
     parser.add_argument(
         '-mk', '--makedir', help='This option creates a subfolder (results) under the current file path.', action="store_true")
+    #Taking DPI argument.
+    parser.add_argument(
+        '-dpi', help='This option takes an integer value, to set the DPI of the given pdf.', type=check_positive)        
+
     args = parser.parse_args()
 
+    
     # Initializating Main function
-    Main(args.documentpath, args.name, args.makedir, args.folderpath)
+    if args.dpi is not None:
+        print(args.dpi)
+        Main(args.documentpath, args.name, args.makedir, args.folderpath, args.dpi)
+    else:
+        Main(args.documentpath, args.name, args.makedir, args.folderpath)

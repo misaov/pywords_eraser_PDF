@@ -33,3 +33,6 @@ en el caso de esta última líbreria se deberá de instalar poppler para su func
 * **Nota** Hay que asegurarse de agregar a PATH el folder de poppler, como el de tesseract:   
 **C:\Program Files\Tesseract-OCR  
 **C:\poppler-20.09.0\bin
+
+** Se debe de instalar las librerias indicadas para el idioma español, estas pueden ser encontradas en https://github.com/tesseract-ocr/tessdata/blob/master/spa.traineddata
+estas se deberan colocar en la carpeta de C:\Program Files\Tesseract-OCR\tessdata
