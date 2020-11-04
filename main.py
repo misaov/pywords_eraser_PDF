@@ -80,18 +80,18 @@ def word_coords(ocr, index, index2):
 def logic(path, names, makedir, txtfile, DPI, matchsensitivity):
     pages = convert_from_path(path, DPI)
     # path & filename formating
-    dir = path.split('\\')
-    filename = dir[-1]
-    mkdir = '\\'.join(dir[:-1])+f'\\{filename[:-4]}_results'
-    dir = '\\'.join(dir[:-1])
+    formating = os.path.split(args.documentpath)
+    filename = formating[-1]
+    dir = ''.join(formating[:-1])
+    mkdir = os.path.join(dir, f'{filename[:-4]}_results')
 
     if txtfile is None and names is None:
         try:
-            with open (rf'{dir}\\{filename[:-4]}.txt', 'r', encoding='utf-8') as file:
+            with open (os.path.join(dir, f'{filename[:-4]}.txt'), 'r', encoding='utf-8') as file:
                 names = file.readlines()
             names = [name.replace('\n', '') for name in names]
         except:
-            raise Exception(rf"File {filename[:-4]}.txt, doesn't exists")
+            raise Exception(f"File {filename[:-4]}.txt, doesn't exists")
 
     elif txtfile is not None and names is None:
         try:
@@ -99,7 +99,7 @@ def logic(path, names, makedir, txtfile, DPI, matchsensitivity):
                 names = file.readlines()
             names = [name.replace('\n', '') for name in names]
         except:
-            raise Exception(rf"An error has been found with the current file at {txtfile}.")      
+            raise Exception(f"An error has been found with the current file at {txtfile}.")      
     else:
         names = [name.strip() for name in ' '.join(names).split(',') if name != '']
 
@@ -117,14 +117,14 @@ def logic(path, names, makedir, txtfile, DPI, matchsensitivity):
             if not os.path.isdir(mkdir):
                 os.makedirs(mkdir)
             cv2.imwrite(
-                f'{mkdir}\\{filename[:-4]}_Sheet{n+1}_processed.png', img)
+                os.path.join(mkdir,f'{filename[:-4]}_Sheet{n+1}_processed.png'), img)
             print(
-                f'{filename[:-4]}_Sheet{n+1}_processed.png, has been created at {mkdir}')
+                f'{filename[:-4]}_Sheet{n+1}_processed.png, has been created.')
         else:
             cv2.imwrite(
-                f'{dir}\\{filename[:-4]}_Sheet{n+1}_processed.png', img)
+                os.path.join(dir,f'{filename[:-4]}_Sheet{n+1}_processed.png'), img)
             print(
-                f'{filename[:-4]}_Sheet{n+1}_processed.png, has been created at {dir}')
+                f'{filename[:-4]}_Sheet{n+1}_processed.png, has been created.')
 
 
 def Main(path, names, makedir, folderpath, txtfile, DPI=200, matchsensitivity=50):
@@ -132,7 +132,7 @@ def Main(path, names, makedir, folderpath, txtfile, DPI=200, matchsensitivity=50
     if folderpath:
         for pdf in os.listdir(folderpath):
             if pdf[-3:] in 'pdf':
-                logic(folderpath+'\\'+pdf, names,
+                logic(os.path.join(folderpath, pdf), names,
                       makedir, txtfile, DPI, matchsensitivity)
     else:
         logic(path, names, makedir, txtfile, DPI, matchsensitivity)
@@ -163,7 +163,6 @@ if __name__ == "__main__":
         '-dpi', help='This option takes an integer value, to set the DPI of the given pdf.', type=check_positive)        
 
     args = parser.parse_args()
-    
 
     # Initializating Main function
     if args.dpi is not None:
